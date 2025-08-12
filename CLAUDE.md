@@ -12,8 +12,8 @@ chmod +x run.sh
 
 ### Manual Development
 ```bash
-# Install dependencies
-uv sync
+# Install dependencies (including dev tools)
+uv sync --extra dev
 
 # Start development server
 cd backend && uv run uvicorn app:app --reload --port 8000
@@ -21,6 +21,28 @@ cd backend && uv run uvicorn app:app --reload --port 8000
 # Access application
 # Web Interface: http://localhost:8000
 # API Docs: http://localhost:8000/docs
+```
+
+### Code Quality Tools
+
+```bash
+# Format code with black and isort
+uv run python scripts/format.py
+
+# Check formatting without changes
+uv run python scripts/check_format.py
+
+# Run linting (flake8 and mypy)
+uv run python scripts/lint.py
+
+# Run all quality checks
+uv run python scripts/quality_check.py
+
+# Individual tool usage
+uv run black .                    # Format with black
+uv run isort .                    # Sort imports
+uv run flake8 backend/ main.py    # Lint with flake8
+uv run mypy backend/ main.py      # Type check with mypy
 ```
 
 ### Environment Setup
