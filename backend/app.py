@@ -1,13 +1,25 @@
 import warnings
 warnings.filterwarnings("ignore", message="resource_tracker: There appear to be.*")
 
+import os
+import sys
+
+# Set UTF-8 encoding for Windows console
+if sys.platform.startswith('win'):
+    os.environ['PYTHONIOENCODING'] = 'utf-8'
+    # Try to set console code page to UTF-8
+    try:
+        import locale
+        locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+    except:
+        pass
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
-import os
 
 from config import config
 from rag_system import RAGSystem

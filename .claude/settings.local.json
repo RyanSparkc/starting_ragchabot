@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/c/Users/ryanchan/.local/bin/uv.exe run python test_gemini.py)",
+      "Bash(/c/Users/ryanchan/.local/bin/uv.exe run python test_rag_system.py)",
+      "Bash(/c/Users/ryanchan/.local/bin/uv.exe run python test_vector_store.py)",
+      "Bash(/c/Users/ryanchan/.local/bin/uv.exe run uvicorn app:app --reload --port 8000)",
+      "Bash(uv run:*)",
+      "Bash(python:*)",
+      "Bash(uv sync:*)",
+      "Bash(timeout:*)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_type",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_press_key",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

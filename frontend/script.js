@@ -122,10 +122,14 @@ function addMessage(content, type, sources = null, isWelcome = false) {
     let html = `<div class="message-content">${displayContent}</div>`;
     
     if (sources && sources.length > 0) {
+        const sourcesHtml = sources.map(source => 
+            `<span class="source-item" onclick="highlightSource('${escapeHtml(source)}')">${escapeHtml(source)}</span>`
+        ).join('');
+        
         html += `
             <details class="sources-collapsible">
-                <summary class="sources-header">Sources</summary>
-                <div class="sources-content">${sources.join(', ')}</div>
+                <summary class="sources-header">Sources (${sources.length})</summary>
+                <div class="sources-content">${sourcesHtml}</div>
             </details>
         `;
     }
@@ -142,6 +146,25 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+// Function to handle source clicks
+function highlightSource(source) {
+    // Create a temporary visual feedback
+    const notification = document.createElement('div');
+    notification.className = 'source-notification';
+    notification.textContent = `Source: ${source}`;
+    document.body.appendChild(notification);
+    
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+        }
+    }, 3000);
+    
+    // Future: Could implement actual navigation to source content
+    console.log('Selected source:', source);
 }
 
 // Removed removeMessage function - no longer needed since we handle loading differently

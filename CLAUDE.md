@@ -26,7 +26,7 @@ cd backend && uv run uvicorn app:app --reload --port 8000
 ### Environment Setup
 Create a `.env` file in the root directory with:
 ```
-ANTHROPIC_API_KEY=your_anthropic_api_key_here
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
 ## Architecture Overview
@@ -37,7 +37,7 @@ This is a full-stack RAG (Retrieval-Augmented Generation) system with the follow
 - **`app.py`**: FastAPI application entry point with CORS, static file serving, and API endpoints
 - **`rag_system.py`**: Main orchestrator connecting all components
 - **`vector_store.py`**: ChromaDB integration for semantic search using sentence transformers
-- **`ai_generator.py`**: Anthropic Claude API integration for response generation
+- **`ai_generator.py`**: Google Gemini API integration for response generation
 - **`document_processor.py`**: Text chunking and course document parsing
 - **`search_tools.py`**: Tool-based search system for AI function calling
 - **`session_manager.py`**: Conversation history management
@@ -51,8 +51,8 @@ This is a full-stack RAG (Retrieval-Augmented Generation) system with the follow
 
 ### Key Components Integration
 1. **Document Processing**: Text files in `/docs` are chunked and embedded using sentence transformers
-2. **Vector Storage**: ChromaDB stores course metadata and content chunks with semantic embeddings
-3. **AI Generation**: Claude Sonnet 4 uses function calling with search tools to query the vector store
+2. **Vector Storage**: ChromaDB stores course metadata and content chunks with semantic embeddings  
+3. **AI Generation**: Google Gemini 2.5 Flash uses function calling with search tools to query the vector store
 4. **Session Management**: Conversation history maintained for context-aware responses
 5. **Web Interface**: FastAPI serves both API endpoints and static frontend files
 
@@ -61,7 +61,7 @@ This is a full-stack RAG (Retrieval-Augmented Generation) system with the follow
 - Max search results: 5 per query
 - Conversation history: 2 messages per session
 - Embedding model: all-MiniLM-L6-v2
-- AI model: claude-sonnet-4-20250514
+- AI model: gemini-2.5-flash
 
 ### API Endpoints
 - `POST /api/query`: Process user queries with session management
