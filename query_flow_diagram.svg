@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1000" height="800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: Arial, sans-serif; font-size: 20px; font-weight: bold; fill: #2c3e50; }
+      .section-title { font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; fill: #34495e; }
+      .step-text { font-family: Arial, sans-serif; font-size: 12px; fill: #2c3e50; }
+      .code-text { font-family: 'Courier New', monospace; font-size: 10px; fill: #e74c3c; }
+      .frontend-box { fill: #3498db; stroke: #2980b9; stroke-width: 2; }
+      .api-box { fill: #2ecc71; stroke: #27ae60; stroke-width: 2; }
+      .rag-box { fill: #f39c12; stroke: #e67e22; stroke-width: 2; }
+      .ai-box { fill: #9b59b6; stroke: #8e44ad; stroke-width: 2; }
+      .tool-box { fill: #e67e22; stroke: #d35400; stroke-width: 2; }
+      .vector-box { fill: #1abc9c; stroke: #16a085; stroke-width: 2; }
+      .arrow { stroke: #34495e; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .dashed-arrow { stroke: #7f8c8d; stroke-width: 1; stroke-dasharray: 5,5; fill: none; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+     refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#34495e" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="500" y="30" class="title" text-anchor="middle">RAG 聊天機器人查詢流程圖</text>
+
+  <!-- Frontend Section -->
+  <g id="frontend">
+    <rect x="50" y="60" width="200" height="120" rx="10" class="frontend-box" opacity="0.8"/>
+    <text x="150" y="80" class="section-title" text-anchor="middle">🖥️ 前端 (Frontend)</text>
+    
+    <text x="60" y="105" class="step-text">1. 使用者輸入問題</text>
+    <text x="60" y="120" class="step-text">2. sendMessage() 觸發</text>
+    <text x="60" y="135" class="step-text">3. POST /api/query</text>
+    <text x="60" y="150" class="code-text">   {query, session_id}</text>
+    <text x="60" y="165" class="step-text">4. 顯示載入動畫</text>
+  </g>
+
+  <!-- API Layer -->
+  <g id="api">
+    <rect x="300" y="60" width="200" height="120" rx="10" class="api-box" opacity="0.8"/>
+    <text x="400" y="80" class="section-title" text-anchor="middle">🔗 API 層 (FastAPI)</text>
+    
+    <text x="310" y="105" class="step-text">5. @app.post("/api/query")</text>
+    <text x="310" y="120" class="step-text">6. 創建/取得 session_id</text>
+    <text x="310" y="135" class="step-text">7. 呼叫 rag_system.query()</text>
+    <text x="310" y="150" class="code-text">   app.py:56-74</text>
+  </g>
+
+  <!-- RAG System -->
+  <g id="rag">
+    <rect x="550" y="60" width="200" height="120" rx="10" class="rag-box" opacity="0.8"/>
+    <text x="650" y="80" class="section-title" text-anchor="middle">🧠 RAG 系統</text>
+    
+    <text x="560" y="105" class="step-text">8. 準備 AI prompt</text>
+    <text x="560" y="120" class="step-text">9. 獲取對話歷史</text>
+    <text x="560" y="135" class="step-text">10. 呼叫 AI 生成器</text>
+    <text x="560" y="150" class="code-text">    rag_system.py:102-140</text>
+    <text x="560" y="165" class="step-text">11. 提供搜尋工具</text>
+  </g>
+
+  <!-- AI Generator -->
+  <g id="ai">
+    <rect x="200" y="230" width="250" height="120" rx="10" class="ai-box" opacity="0.8"/>
+    <text x="325" y="250" class="section-title" text-anchor="middle">🤖 AI 生成器 (Claude)</text>
+    
+    <text x="210" y="275" class="step-text">12. anthropic.client.messages.create()</text>
+    <text x="210" y="290" class="step-text">13. 分析查詢決定是否使用工具</text>
+    <text x="210" y="305" class="step-text">14. 如需搜尋: tool_use → 執行工具</text>
+    <text x="210" y="320" class="code-text">    ai_generator.py:43-87</text>
+    <text x="210" y="335" class="step-text">15. 基於結果生成最終回應</text>
+  </g>
+
+  <!-- Search Tools -->
+  <g id="tools">
+    <rect x="500" y="230" width="200" height="120" rx="10" class="tool-box" opacity="0.8"/>
+    <text x="600" y="250" class="section-title" text-anchor="middle">🔍 搜尋工具</text>
+    
+    <text x="510" y="275" class="step-text">16. CourseSearchTool.execute()</text>
+    <text x="510" y="290" class="step-text">17. 解析查詢參數:</text>
+    <text x="510" y="305" class="code-text">    - query, course_name, lesson_number</text>
+    <text x="510" y="320" class="step-text">18. 呼叫向量存儲搜尋</text>
+    <text x="510" y="335" class="step-text">19. 格式化結果 + 追蹤來源</text>
+  </g>
+
+  <!-- Vector Store -->
+  <g id="vector">
+    <rect x="750" y="230" width="200" height="120" rx="10" class="vector-box" opacity="0.8"/>
+    <text x="850" y="250" class="section-title" text-anchor="middle">📊 向量存儲</text>
+    
+    <text x="760" y="275" class="step-text">20. Sentence Transformers</text>
+    <text x="760" y="290" class="step-text">    查詢 → 向量嵌入</text>
+    <text x="760" y="305" class="step-text">21. ChromaDB 語意搜尋</text>
+    <text x="760" y="320" class="step-text">22. 過濾 + 排序結果</text>
+    <text x="760" y="335" class="step-text">23. 返回相關內容塊</text>
+  </g>
+
+  <!-- Session Management -->
+  <g id="session">
+    <rect x="50" y="400" width="180" height="80" rx="10" fill="#95a5a6" stroke="#7f8c8d" stroke-width="2" opacity="0.8"/>
+    <text x="140" y="420" class="section-title" text-anchor="middle">💾 Session 管理</text>
+    <text x="60" y="440" class="step-text">• 對話歷史維護</text>
+    <text x="60" y="455" class="step-text">• 上下文連續性</text>
+    <text x="60" y="470" class="step-text">• 多使用者支援</text>
+  </g>
+
+  <!-- Document Processing -->
+  <g id="docs">
+    <rect x="270" y="400" width="180" height="80" rx="10" fill="#95a5a6" stroke="#7f8c8d" stroke-width="2" opacity="0.8"/>
+    <text x="360" y="420" class="section-title" text-anchor="middle">📚 文件處理</text>
+    <text x="280" y="440" class="step-text">• 課程文件解析</text>
+    <text x="280" y="455" class="step-text">• 智能分塊</text>
+    <text x="280" y="470" class="step-text">• 向量化存儲</text>
+  </g>
+
+  <!-- Response Flow -->
+  <g id="response">
+    <rect x="500" y="400" width="200" height="120" rx="10" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="2" opacity="0.8"/>
+    <text x="600" y="420" class="section-title" text-anchor="middle">🔄 回應流程</text>
+    
+    <text x="510" y="445" class="step-text">24. AI 生成最終答案</text>
+    <text x="510" y="460" class="step-text">25. 更新對話歷史</text>
+    <text x="510" y="475" class="step-text">26. 返回 JSON 回應:</text>
+    <text x="510" y="490" class="code-text">    {answer, sources, session_id}</text>
+    <text x="510" y="505" class="step-text">27. 前端渲染 + 顯示來源</text>
+  </g>
+
+  <!-- Technology Stack -->
+  <g id="tech">
+    <rect x="750" y="400" width="200" height="120" rx="10" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="2" opacity="0.8"/>
+    <text x="850" y="420" class="section-title" text-anchor="middle">⚙️ 技術堆疊</text>
+    
+    <text x="760" y="445" class="step-text">• FastAPI + Uvicorn</text>
+    <text x="760" y="460" class="step-text">• Anthropic Claude API</text>
+    <text x="760" y="475" class="step-text">• ChromaDB + Sentence Transformers</text>
+    <text x="760" y="490" class="step-text">• HTML/CSS/JavaScript</text>
+    <text x="760" y="505" class="step-text">• Python + uv 套件管理</text>
+  </g>
+
+  <!-- Arrows showing flow -->
+  <!-- Frontend to API -->
+  <line x1="250" y1="120" x2="300" y2="120" class="arrow"/>
+  
+  <!-- API to RAG -->
+  <line x1="500" y1="120" x2="550" y2="120" class="arrow"/>
+  
+  <!-- RAG to AI -->
+  <line x1="650" y1="180" x2="325" y2="230" class="arrow"/>
+  
+  <!-- AI to Tools -->
+  <line x1="450" y1="290" x2="500" y2="290" class="arrow"/>
+  
+  <!-- Tools to Vector -->
+  <line x1="700" y1="290" x2="750" y2="290" class="arrow"/>
+  
+  <!-- Vector back to Tools -->
+  <line x1="750" y1="310" x2="700" y2="310" class="dashed-arrow"/>
+  
+  <!-- Tools back to AI -->
+  <line x1="500" y1="310" x2="450" y2="310" class="dashed-arrow"/>
+  
+  <!-- AI back to RAG -->
+  <line x1="325" y1="350" x2="600" y2="400" class="dashed-arrow"/>
+  
+  <!-- RAG back to API -->
+  <line x1="550" y1="140" x2="500" y2="140" class="dashed-arrow"/>
+  
+  <!-- API back to Frontend -->
+  <line x1="300" y1="140" x2="250" y2="140" class="dashed-arrow"/>
+
+  <!-- Key Features -->
+  <text x="50" y="560" class="section-title">🎯 核心特性:</text>
+  <text x="50" y="580" class="step-text">• 智能工具選擇: AI 自動決定是否需要搜尋課程內容</text>
+  <text x="50" y="595" class="step-text">• 語意搜尋: 向量嵌入實現精確內容檢索</text>
+  <text x="50" y="610" class="step-text">• 上下文保持: Session 管理維持對話連續性</text>
+  <text x="50" y="625" class="step-text">• 來源追蹤: 提供答案的可驗證參考來源</text>
+  <text x="50" y="640" class="step-text">• 實時回應: WebSocket-like 體驗與載入動畫</text>
+
+  <!-- Data Flow Legend -->
+  <g id="legend">
+    <text x="500" y="560" class="section-title">📊 資料流向:</text>
+    <line x1="500" y1="575" x2="530" y2="575" class="arrow"/>
+    <text x="540" y="580" class="step-text">請求流向</text>
+    <line x1="500" y1="590" x2="530" y2="590" class="dashed-arrow"/>
+    <text x="540" y="595" class="step-text">回應流向</text>
+  </g>
+
+</svg>
