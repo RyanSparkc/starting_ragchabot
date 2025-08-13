@@ -29,3 +29,9 @@ uploads/
 # OS
 .DS_Store
 Thumbs.db
+
+# trees
+.tree/
+
+#claude
+.claude/
